@@ -1,5 +1,5 @@
 #Special thanks to Jared for the awesome graphics wrapper.
-
+#Change test
 #Screen size: 96 x 26
 
 .data
