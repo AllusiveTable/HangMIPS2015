@@ -83,7 +83,6 @@ MainLoop:
 		j startGame
 		dontStart:
 		j menuLoop
-
 	startGame:
 	jal gfx_clearScreen
 	jal engine_initializeBank
@@ -129,7 +128,6 @@ MainLoop:
 	j gameLoop
 	
 	j ExitProgram
-
 DrawMainMenu:
 	#This is our main menu. Display: HangMIPS in ASCII art, then by: our names, and menu: 1) Play 2) Quit
 	# $a0 =string,  $a1=x $a2=y $a3=color
@@ -283,7 +281,6 @@ DrawMainMenu:
 	move $ra, $sp
 	addi $sp, $sp, 4
 	jr $ra #return to main loop
-
 getRandWord:
 	move $t0, $zero #index is 0 for now
 	la $t1, wordList # load array
@@ -293,7 +290,6 @@ getRandWord:
 	li $a1, 15
 	li $v0, 42
 	syscall
-
 	move $t0, $a0 #new random index
 	sll $t0, $t0, 2 #index=index*4
 	addu $t0, $t1, $t0
@@ -430,7 +426,6 @@ engine_updateBank:	# $a0=ascii letter $a1=color(0-F)
 	#set character
 	sb $a0, 0xffff000f
 	jr $ra
-
 engine_checkLetter:	#$a0=letter
 	subi $sp, $sp, 4
 	move $sp, $ra
@@ -526,7 +521,6 @@ engine_checkLetter:	#$a0=letter
 	move $ra, $sp
 	addi $sp, $sp, 4
 	jr $ra
-
 lose:
 	jal gfx_clearScreen
 	la $a0, debug_lose
@@ -566,7 +560,6 @@ win:
 resetGame:
 	li $t0, 10
 	sb $t0, failureCount
-
 	sb $zero, matchCount
 	
 	li $t0, 0x03FFFFFF
@@ -587,5 +580,4 @@ resetGame:
 	endBL:
 	
 	j startGame
-
 ExitProgram:
