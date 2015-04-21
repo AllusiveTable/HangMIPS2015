@@ -143,12 +143,6 @@ MainLoop:
 	
 	#Display the Noose/Hanging platform
 	jal gfx_drawNoose
-	jal gfx_drawHead
-	jal gfx_drawBody
-	jal gfx_drawLeftArm
-	jal gfx_drawRightArm
-	jal gfx_drawLeftLeg
-	jal gfx_drawRightLeg
 	
 	gameLoop:
 		#set interrupt flag to wait for input
@@ -383,9 +377,9 @@ getRandWord:
 		#check for null terminator
 		beqz $t0, endBuffer
 		
-		#set the blank_ in the wordBuffer
+		#set the blank to ? in the wordBuffer
 		add $t1, $s2, $s0
-		li $t2, 0x5F
+		li $t2, 0x2E
 		sb $t2, ($t1)
 		
 		#increment the word offset
@@ -797,6 +791,7 @@ engine_updateBank:	# $a0=ascii letter $a1=color(0-F)
 	#set character
 	sb $a0, 0xffff000f
 	jr $ra
+	
 engine_checkLetter:	#$a0=letter
 	subi $sp, $sp, 4
 	sw $ra, ($sp)
@@ -867,18 +862,23 @@ engine_checkLetter:	#$a0=letter
 	
 	#check if no matches were made
 	bnez $s3, skipPunishment
-	lw $ra, ($sp)
-	addi $sp, $sp, 4
 	
 	#check for complete failure
 	lb $t0, failureCount
 	bne $t0, 1, notLose
+	sb $zero, failureCount
 	j lose
 	notLose:
 	
 	#decrement failures
 	subi $t0, $t0, 1
 	sb $t0, failureCount
+	
+	#update hangman
+	jal engine_updateMan
+	
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
 	jr $ra
 	skipPunishment:
 	
@@ -892,13 +892,48 @@ engine_checkLetter:	#$a0=letter
 	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
+	
+engine_updateMan:
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	
+	lb $s0, failureCount
+	
+	bgt $s0, 5, endHanging
+	jal gfx_drawHead
+	
+	bgt $s0, 4, endHanging
+	jal gfx_drawBody
+
+	bgt $s0, 3, endHanging
+	jal gfx_drawLeftArm
+
+	bgt $s0, 2, endHanging
+	jal gfx_drawRightArm
+	
+	bgt $s0, 1, endHanging
+	jal gfx_drawLeftLeg
+	
+	bgt $s0, 0, endHanging
+	jal gfx_drawRightLeg
+	
+	endHanging:
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
 lose:
 	jal gfx_clearScreen
+	
 	la $a0, debug_lose
 	li $a1, 0
 	li $a2, 0
 	li $a3, 0xF0
 	jal gfx_drawString
+	
+	#hang MIPS
+	jal gfx_drawNoose
+	jal engine_updateMan
 	
 	#set interrupt flag to wait for input
 	lw $t0 , 0xFFFF0000
@@ -912,11 +947,16 @@ lose:
 	
 win:
 	jal gfx_clearScreen
+	
 	la $a0, debug_win
 	li $a1, 0
 	li $a2, 0
 	li $a3, 0xF0
 	jal gfx_drawString
+	
+	#hang MIPS
+	jal gfx_drawNoose
+	jal engine_updateMan
 	
 	#set interrupt flag to wait for input
 	lw $t0 , 0xFFFF0000
