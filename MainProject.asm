@@ -468,7 +468,7 @@ gfx_clearScreen:
 
 gfx_drawHead: #Just the head (or just the tip?)
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_head_line1
 	li $a1, 70
 	li $a2, 8
@@ -490,12 +490,12 @@ gfx_drawHead: #Just the head (or just the tip?)
 	li $a3, 0xA0
 	jal gfx_drawString
 	move $ra, $sp
-	addi $sp, $sp, 4
+	lw $ra, ($sp)
 	jr $ra
 
 gfx_drawLeftArm: #Left arm
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_larm_line1
 	li $a1, 60
 	li $a2, 13
@@ -516,13 +516,13 @@ gfx_drawLeftArm: #Left arm
 	li $a2, 16
 	li $a3, 0xE0
 	jal gfx_drawString
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
 gfx_drawLeftLeg: #Left Leg
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_larm_line1
 	li $a1, 63
 	li $a2, 19
@@ -538,13 +538,13 @@ gfx_drawLeftLeg: #Left Leg
 	li $a2, 21
 	li $a3, 0xC0
 	jal gfx_drawString
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
 gfx_drawRightLeg: #Right Leg
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_rarm_line1
 	li $a1, 75
 	li $a2, 19
@@ -560,13 +560,13 @@ gfx_drawRightLeg: #Right Leg
 	li $a2, 21
 	li $a3, 0xC0
 	jal gfx_drawString
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
 gfx_drawRightArm: #Right arm
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_rarm_line1
 	li $a1, 80
 	li $a2, 13
@@ -587,13 +587,13 @@ gfx_drawRightArm: #Right arm
 	li $a2, 16
 	li $a3, 0xE0
 	jal gfx_drawString
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
 gfx_drawBody: #The body
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_body_line1
 	li $a1, 70
 	li $a2, 12
@@ -629,13 +629,13 @@ gfx_drawBody: #The body
 	li $a2, 18
 	li $a3, 0xA0
 	jal gfx_drawString
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
 gfx_drawNoose:	#JUST THE PLATFORM!
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	la $a0, hang_frame_line1
 	li $a1, 55
 	li $a2, 2
@@ -756,7 +756,7 @@ gfx_drawNoose:	#JUST THE PLATFORM!
 	li $a2, 25
 	li $a3, 0x20
 	jal gfx_drawString
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
