@@ -45,6 +45,51 @@
 	msg_title_line6:	.asciiz	"                 |_|  |_| \\__,_||_| |_| \\__, ||_|  |_||_____||_|     |_____/ "
 	msg_title_line7:	.asciiz	"                                         __/ |                              "
 	msg_title_line8:	.asciiz	"                                        |___/                                "
+
+	hang_frame_line1:	.asciiz	" ____________________"
+	hang_frame_line2:	.asciiz	"|  __________))______|"
+	hang_frame_line3:	.asciiz	"| | / /      ||"
+	hang_frame_line4:	.asciiz	"| |/ /       ||"
+	hang_frame_line5:	.asciiz	"| | /        ||"
+	hang_frame_line6:	.asciiz	"| |/         ||"
+	hang_frame_line7:	.asciiz	"| |          ||"
+	hang_frame_line8:	.asciiz	"| |           \\\\"
+	hang_frame_line9:	.asciiz	"| |"
+	hang_frame_line10:	.asciiz	"| |"
+	hang_frame_line11:	.asciiz	"| |"
+	hang_frame_line12:	.asciiz	"| |"
+	hang_frame_line13:	.asciiz	"| |"
+	hang_frame_line14:	.asciiz	"| |"
+	hang_frame_line15:	.asciiz	"| |"
+	hang_frame_line16:	.asciiz	"| |"
+	hang_frame_line17:	.asciiz	"| |"
+	hang_frame_line18:	.asciiz	"| |"
+	hang_frame_line19:	.asciiz	"| |"
+	hang_frame_line20:	.asciiz	"|'|''''''''|                |''''''|"
+	hang_frame_line21:	.asciiz	"|'|'''''''\\ \\                '''|''|"
+	hang_frame_line22:	.asciiz	"| |         \\ \\                  | |"
+	hang_frame_line23:	.asciiz	": :           \\ \\                : :"
+	hang_frame_line24:	.asciiz	": :             `'               : :"
+	hang_head_line1:	.asciiz	"  ____"
+	hang_head_line2:	.asciiz	"\\/ - - \\"
+	hang_head_line3:	.asciiz	"|   `  |"
+	hang_head_line4:	.asciiz	" \\____/"
+	hang_body_line1:	.asciiz	"   ||"
+	hang_body_line2:	.asciiz	"---------"
+	hang_body_line3:	.asciiz	"|       |"
+	hang_body_line4:	.asciiz	"|       |"
+	hang_body_line5:	.asciiz	"|       |"
+	hang_body_line6:	.asciiz	"|       |"
+	hang_body_line7:	.asciiz	"|_______|"
+	hang_larm_line1:	.asciiz	"         //"
+	hang_larm_line2:	.asciiz	"       //"
+	hang_larm_line3:	.asciiz	"     //"
+	hang_larm_line4:	.asciiz	"    *"
+	hang_rarm_line1:	.asciiz	"\\\\"
+	hang_rarm_line2:	.asciiz	"  \\\\"
+	hang_rarm_line3:	.asciiz	"    \\\\"
+	hang_rarm_line4:	.asciiz	"      *"
+	hang_asterisk:		.asciiz	"*"
 	
 #keyboard trap
 .ktext 0x80000180
@@ -95,6 +140,15 @@ MainLoop:
 	li $a2, 3
 	li $a3, 0x20
 	jal gfx_drawString
+	
+	#Display the Noose/Hanging platform
+	jal gfx_drawNoose
+	jal gfx_drawHead
+	jal gfx_drawBody
+	jal gfx_drawLeftArm
+	jal gfx_drawRightArm
+	jal gfx_drawLeftLeg
+	jal gfx_drawRightLeg
 	
 	gameLoop:
 		#set interrupt flag to wait for input
@@ -410,6 +464,300 @@ gfx_clearScreen:
 		bnez $t0 , cs_WaitLoopDone
 		b rs_WaitLoop
 		cs_WaitLoopDone:
+	jr $ra
+
+gfx_drawHead: #Just the head (or just the tip?)
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_head_line1
+	li $a1, 70
+	li $a2, 8
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_head_line2
+	li $a1, 70
+	li $a2, 9
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_head_line3
+	li $a1, 70
+	li $a2, 10
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_head_line4
+	li $a1, 70
+	li $a2, 11
+	li $a3, 0xA0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+
+gfx_drawLeftArm: #Left arm
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_larm_line1
+	li $a1, 60
+	li $a2, 13
+	li $a3, 0xE0
+	jal gfx_drawString
+	la $a0, hang_larm_line2
+	li $a1, 60
+	li $a2, 14
+	li $a3, 0xE0
+	jal gfx_drawString
+	la $a0, hang_larm_line3
+	li $a1, 60
+	li $a2, 15
+	li $a3, 0xE0
+	jal gfx_drawString
+	la $a0, hang_larm_line4
+	li $a1, 60
+	li $a2, 16
+	li $a3, 0xE0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawLeftLeg: #Left Leg
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_larm_line1
+	li $a1, 63
+	li $a2, 19
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_larm_line2
+	li $a1, 63
+	li $a2, 20
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_asterisk
+	li $a1, 69
+	li $a2, 21
+	li $a3, 0xC0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawRightLeg: #Right Leg
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_rarm_line1
+	li $a1, 75
+	li $a2, 19
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_rarm_line2
+	li $a1, 75
+	li $a2, 20
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_asterisk
+	li $a1, 79
+	li $a2, 21
+	li $a3, 0xC0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawRightArm: #Right arm
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_rarm_line1
+	li $a1, 80
+	li $a2, 13
+	li $a3, 0xE0
+	jal gfx_drawString
+	la $a0, hang_rarm_line2
+	li $a1, 80
+	li $a2, 14
+	li $a3, 0xE0
+	jal gfx_drawString
+	la $a0, hang_rarm_line3
+	li $a1, 80
+	li $a2, 15
+	li $a3, 0xE0
+	jal gfx_drawString
+	la $a0, hang_rarm_line4
+	li $a1, 80
+	li $a2, 16
+	li $a3, 0xE0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawBody: #The body
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_body_line1
+	li $a1, 70
+	li $a2, 12
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_body_line2
+	li $a1, 70
+	li $a2, 13
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_body_line3
+	li $a1, 70
+	li $a2, 14
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_body_line4
+	li $a1, 70
+	li $a2, 15
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_body_line5
+	li $a1, 70
+	li $a2, 16
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_body_line6
+	li $a1, 70
+	li $a2, 17
+	li $a3, 0xA0
+	jal gfx_drawString
+	la $a0, hang_body_line7
+	li $a1, 70
+	li $a2, 18
+	li $a3, 0xA0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawNoose:	#JUST THE PLATFORM!
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_frame_line1
+	li $a1, 55
+	li $a2, 2
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line2
+	li $a1, 55
+	li $a2, 3
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line3
+	li $a1, 55
+	li $a2, 4
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line4
+	li $a1, 55
+	li $a2, 5
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line5
+	li $a1, 55
+	li $a2, 6
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line6
+	li $a1, 55
+	li $a2, 7
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line7
+	li $a1, 55
+	li $a2, 8
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line8
+	li $a1, 55
+	li $a2, 9
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line9
+	li $a1, 55
+	li $a2, 10
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line10
+	li $a1, 55
+	li $a2,11
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line11
+	li $a1, 55
+	li $a2, 12
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line12
+	li $a1, 55
+	li $a2, 13
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line13
+	li $a1, 55
+	li $a2, 14
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line14
+	li $a1, 55
+	li $a2, 15
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line15
+	li $a1, 55
+	li $a2, 16
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line16
+	li $a1, 55
+	li $a2, 17
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line17
+	li $a1, 55
+	li $a2, 18
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line18
+	li $a1, 55
+	li $a2, 19
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line19
+	li $a1, 55
+	li $a2, 20
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line20
+	li $a1, 55
+	li $a2, 21
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line21
+	li $a1, 55
+	li $a2, 22
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line22
+	li $a1, 55
+	li $a2, 23
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line23
+	li $a1, 55
+	li $a2, 24
+	li $a3, 0x20
+	jal gfx_drawString
+	la $a0, hang_frame_line24
+	li $a1, 55
+	li $a2, 25
+	li $a3, 0x20
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
 	jr $ra
 	
 engine_initializeBank:
