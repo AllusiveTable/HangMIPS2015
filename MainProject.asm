@@ -3,7 +3,7 @@
 #Screen size: 96 x 26
 
 .data
-	failureCount:		.byte 10
+	failureCount:		.byte 6
 	matchCount:		.byte 0
 	letterState:		.word 0x03FFFFFF #bits 25-0 where 1 is visible
 	wordAddress:		.word word_0		#memory location of the correct word
@@ -46,6 +46,31 @@
 	msg_title_line6:	.asciiz	"                 |_|  |_| \\__,_||_| |_| \\__, ||_|  |_||_____||_|     |_____/ "
 	msg_title_line7:	.asciiz	"                                         __/ |                              "
 	msg_title_line8:	.asciiz	"                                        |___/                                "
+
+	hang_frame_line1:	.asciiz	" ____________________"
+	hang_frame_line2:	.asciiz	"|  __________))______|"
+	hang_frame_line3:	.asciiz	"| | / /      ||"
+	hang_frame_line4:	.asciiz	"| |/ /       ||"
+	hang_frame_line5:	.asciiz	"| | /        ||"
+	hang_frame_line6:	.asciiz	"| |/         ||"
+	hang_frame_line7:	.asciiz	"| |          ||"
+	hang_frame_line8:	.asciiz	"| |          \\"
+	hang_frame_line9:	.asciiz	"| |"
+	hang_frame_line10:	.asciiz	"| |"
+	hang_frame_line11:	.asciiz	"| |"
+	hang_frame_line12:	.asciiz	"| |"
+	hang_frame_line13:	.asciiz	"| |"
+	hang_frame_line14:	.asciiz	"| |"
+	hang_frame_line15:	.asciiz	"| |"
+	hang_frame_line16:	.asciiz	"| |"
+	hang_frame_line17:	.asciiz	"| |"
+	hang_frame_line18:	.asciiz	"| |"
+	hang_frame_line19:	.asciiz	"| |"
+	hang_frame_line20:	.asciiz	"''''''''''''''''''|             |''''''|"
+	hang_frame_line21:	.asciiz	"|''|'''''''''''''\ \           '''|''|"
+	hang_frame_line22:	.asciiz	"| |            \ \            | |"
+	hang_frame_line23:	.asciiz	": :              \ \          : :"
+	hang_frame-line24:	.asciiz	": :                `'         : :"
 	
 #keyboard trap
 .ktext 0x80000180
