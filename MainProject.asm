@@ -1,9 +1,7 @@
-#Special thanks to Jared for the awesome graphics wrapper.
-
 #Screen size: 96 x 26
 
 .data
-	failureCount:		.byte 10
+	failureCount:		.byte 6
 	matchCount:		.byte 0
 	letterState:		.word 0x03FFFFFF #bits 25-0 where 1 is visible
 	wordAddress:		.word word_0		#memory location of the correct word
@@ -38,7 +36,7 @@
 	msg_title_credit3:	.asciiz	"Jeff Imam"
 	msg_title_credit4:	.asciiz	"Chase Vriezema"
 	msg_game_title:		.asciiz	"HangMIPS"
-	msg_game_usedLetters:	.asciiz "   Unused letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ   "
+	msg_game_usedLetters:	.asciiz "   Unused letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	msg_title_line1:	.asciiz	"                  _    _                       __  __  _____  _____    _____ "
 	msg_title_line2:	.asciiz	"                 | |  | |                     |  \\/  ||_   _||  __ \\  / ____|" #62
 	msg_title_line3:	.asciiz	"                 | |__| |  __ _  _ __    __ _ | \\  / |  | |  | |__) || (___  "
@@ -93,7 +91,7 @@ MainLoop:
 	
 	#display the word (for debugging)
 	lw $a0, wordAddress
-	li $a1, 0
+	li $a1, 1
 	li $a2, 3
 	li $a3, 0x20
 	jal gfx_drawString
@@ -238,63 +236,66 @@ gfx_drawBorder:
 	move $a2, $s1
 	li $a3, 0xB0
 	jal gfx_drawChar
+	
 	li $a0, 0xBB	#Up Right corner
 	add $a1, $s0, $s2
 	move $a2, $s1
 	li $a3, 0xB0
 	jal gfx_drawChar
+	
 	li $a0, 0xC8	#Low Left corner
 	move $a1, $s0
 	add $a2, $s1, $s3
 	li $a3, 0xB0
 	jal gfx_drawChar
+	
 	li $a0, 0xBC	#Low Right corner
 	move $a1, $s2
 	move $a2, $s3
 	li $a3, 0xB0
 	jal gfx_drawChar
-		#Draw Upper/Lower borders:
-		addi $s0, $s0, 1
-		brd_upperLoop:
-			beq $s0, $s2, brd_end
-			li $t0, 0xCD	#Pipe character (UPPER BORDER)
-			move $t2, $s1
-			li $t3, 0xB0
-			sb $t3, 0xffff000c #Col
-			sb $t2, 0xffff000d #Y
-			sb $s0, 0xffff000e #X
-			sb $t0, 0xffff000f #Char
-			li $t0, 0xCD	#Pipe character (LOWER BORDER)
-			move $t2, $s3
-			li $t3, 0xB0
-			sb $t3, 0xffff000c #Col
-			sb $t2, 0xffff000d #Y
-			sb $s0, 0xffff000e #X
-			sb $t0, 0xffff000f #Char
-			addi $s0, $s0, 1
-			j brd_upperLoop
-		brd_end:
-		#Draw left/right borders:
-		addi $s1, $s1, 1
-		brd_leftLoop:
-			beq $s1, $s3, brd_end2
-			li $t0, 0xBA	#Pipe character (LEFT BORDER)
-			move $t2, $s0
-			li $t3, 0xB0 #B0
-			sb $t3, 0xffff000c #Col
-			sb $s1, 0xffff000d #Y
-			sb $t2, 0xffff000e #X
-			sb $t0, 0xffff000f #Char
-			li $t0, 0xBA	#Pipe character (RIGHT BORDER)
-			move $t2, $s3
-			li $t3, 0xB0
-			sb $t3, 0xffff000c #Col
-			sb $s1, 0xffff000d #Y
-			sb $t1, 0xffff000e #X
-			sb $t0, 0xffff000f #Char
-			addi $s1, $s1, 1
-			j brd_leftLoop
-		brd_end2:
+	
+	#Draw Upper/Lower borders:
+	addi $t1, $s0, 1
+	brd_upperLoop:
+		beq $t1, $s2, brd_end
+		li $t0, 0xCD	#Pipe character (UPPER BORDER)
+		li $t3, 0xB0
+		sb $t3, 0xffff000c #Col
+		sb $s1, 0xffff000d #Y
+		sb $t1, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		li $t0, 0xCD	#Pipe character (LOWER BORDER)
+		add $t2, $s1, $s3
+		li $t3, 0xB0
+		sb $t3, 0xffff000c #Col
+		sb $t2, 0xffff000d #Y
+		sb $t1, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		addi $t1, $t1, 1
+		j brd_upperLoop
+	brd_end:
+	
+	#Draw left/right borders:
+	addi $t1, $s1, 1
+	brd_leftLoop:
+		beq $t1, $s3, brd_end2
+		li $t0, 0xBA	#Pipe character (LEFT BORDER)
+		li $t3, 0xB0 #B0
+		sb $t3, 0xffff000c #Col
+		sb $t1, 0xffff000d #Y
+		sb $s0, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		li $t0, 0xBA	#Pipe character (RIGHT BORDER)
+		add $t2, $s0, $s2
+		li $t3, 0xB0
+		sb $t3, 0xffff000c #Col
+		sb $t1, 0xffff000d #Y
+		sb $t2, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		addi $t1, $t1, 1
+		j brd_leftLoop
+	brd_end2:
 	
 	lw $ra, ($sp)
 	addi $sp, $sp, 4
@@ -343,7 +344,7 @@ getRandWord:
 	
 	#draw the wordBuffer to screen
 	la $a0, wordBuffer
-	li $a1, 0
+	li $a1, 1
 	li $a2, 4
 	li $a3, 0x20
 	jal gfx_drawString
@@ -425,19 +426,10 @@ engine_initializeBank:
 	li $a3, 0x20
 	jal gfx_drawString
 	
-	#start with A and update each letter in the bank
-	#li $s0, 0x41
-	#loop_iB:
-	#move $a0, $s0
-	#li $a1, 0xF0
-	#jal engine_updateBank
-	#addi $s0, $s0, 1
-	#blt $s0, 0x5B, loop_iB
-	
 	move $a0, $zero
 	move $a1, $zero
 	li $a2, 47
-	li $a3, 26
+	li $a3, 2
 	jal gfx_drawBorder
 	
 	lw $ra, ($sp)
@@ -544,7 +536,7 @@ engine_checkLetter:	#$a0=letter
 	
 	#redraw the wordBuffer on the screen
 	la $a0, wordBuffer
-	li $a1, 0
+	li $a1, 1
 	li $a2, 4
 	li $a3, 0x20
 	jal gfx_drawString
@@ -589,12 +581,9 @@ win:
 	j resetGame
 	
 resetGame:
-	li $t0, 10
+	li $t0, 6
 	sb $t0, failureCount
 	sb $zero, matchCount
-	
-	li $t0, 0x03FFFFFF
-	sw $t0, letterState
 	
 	move $t0, $zero	#offset counter
 	la $t1, wordBuffer
