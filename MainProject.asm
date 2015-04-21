@@ -90,6 +90,7 @@
 	hang_rarm_line2:	.asciiz	"  \\\\"
 	hang_rarm_line3:	.asciiz	"    \\\\"
 	hang_rarm_line4:	.asciiz	"      *"
+	hang_asterisk:		.asciiz	"*"
 	
 #keyboard trap
 .ktext 0x80000180
@@ -147,6 +148,8 @@ MainLoop:
 	jal gfx_drawBody
 	jal gfx_drawLeftArm
 	jal gfx_drawRightArm
+	jal gfx_drawLeftLeg
+	jal gfx_drawRightLeg
 	
 	gameLoop:
 		#set interrupt flag to wait for input
@@ -449,22 +452,22 @@ gfx_drawHead: #Just the head (or just the tip?)
 	la $a0, hang_head_line1
 	li $a1, 70
 	li $a2, 8
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_head_line2
 	li $a1, 70
 	li $a2, 9
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_head_line3
 	li $a1, 70
 	li $a2, 10
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_head_line4
 	li $a1, 70
 	li $a2, 11
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	move $ra, $sp
 	addi $sp, $sp, 4
@@ -476,48 +479,93 @@ gfx_drawLeftArm: #Left arm
 	la $a0, hang_larm_line1
 	li $a1, 60
 	li $a2, 13
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	la $a0, hang_larm_line2
 	li $a1, 60
 	li $a2, 14
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	la $a0, hang_larm_line3
 	li $a1, 60
 	li $a2, 15
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	la $a0, hang_larm_line4
 	li $a1, 60
 	li $a2, 16
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	move $ra, $sp
 	addi $sp, $sp, 4
 	jr $ra
+	
+gfx_drawLeftLeg: #Left Leg
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_larm_line1
+	li $a1, 63
+	li $a2, 19
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_larm_line2
+	li $a1, 63
+	li $a2, 20
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_asterisk
+	li $a1, 69
+	li $a2, 21
+	li $a3, 0xC0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawRightLeg: #Right Leg
+	subi $sp, $sp, 4
+	move $sp, $ra
+	la $a0, hang_rarm_line1
+	li $a1, 75
+	li $a2, 19
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_rarm_line2
+	li $a1, 75
+	li $a2, 20
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_asterisk
+	li $a1, 79
+	li $a2, 21
+	li $a3, 0xC0
+	jal gfx_drawString
+	move $ra, $sp
+	addi $sp, $sp, 4
+	jr $ra
+	
 gfx_drawRightArm: #Right arm
 	subi $sp, $sp, 4
 	move $sp, $ra
 	la $a0, hang_rarm_line1
 	li $a1, 80
 	li $a2, 13
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	la $a0, hang_rarm_line2
 	li $a1, 80
 	li $a2, 14
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	la $a0, hang_rarm_line3
 	li $a1, 80
 	li $a2, 15
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	la $a0, hang_rarm_line4
 	li $a1, 80
 	li $a2, 16
-	li $a3, 0x20
+	li $a3, 0xE0
 	jal gfx_drawString
 	move $ra, $sp
 	addi $sp, $sp, 4
@@ -529,37 +577,37 @@ gfx_drawBody: #The body
 	la $a0, hang_body_line1
 	li $a1, 70
 	li $a2, 12
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_body_line2
 	li $a1, 70
 	li $a2, 13
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_body_line3
 	li $a1, 70
 	li $a2, 14
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_body_line4
 	li $a1, 70
 	li $a2, 15
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_body_line5
 	li $a1, 70
 	li $a2, 16
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_body_line6
 	li $a1, 70
 	li $a2, 17
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	la $a0, hang_body_line7
 	li $a1, 70
 	li $a2, 18
-	li $a3, 0x20
+	li $a3, 0xA0
 	jal gfx_drawString
 	move $ra, $sp
 	addi $sp, $sp, 4
