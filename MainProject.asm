@@ -83,7 +83,6 @@ MainLoop:
 		j startGame
 		dontStart:
 		j menuLoop
-
 	startGame:
 	jal gfx_clearScreen
 	jal engine_initializeBank
@@ -129,7 +128,6 @@ MainLoop:
 	j gameLoop
 	
 	j ExitProgram
-
 DrawMainMenu:
 	#This is our main menu. Display: HangMIPS in ASCII art, then by: our names, and menu: 1) Play 2) Quit
 	# $a0 =string,  $a1=x $a2=y $a3=color
@@ -145,42 +143,42 @@ DrawMainMenu:
 		la $a0, msg_title_line1
 		li $a1, 1
 		li $a2, 1
-		li $a3, 0x20
+		li $a3, 0x60
 		jal gfx_drawString
 		la $a0, msg_title_line2
 		li $a1, 1
 		li $a2, 2
-		li $a3, 0x20
+		li $a3, 0x60
 		jal gfx_drawString
 		la $a0, msg_title_line3
 		li $a1, 1
 		li $a2, 3
-		li $a3, 0x20
+		li $a3, 0x50
 		jal gfx_drawString
 		la $a0, msg_title_line4
 		li $a1, 1
 		li $a2, 4
-		li $a3, 0x20
+		li $a3, 0x50
 		jal gfx_drawString
 		la $a0, msg_title_line5
 		li $a1, 1
 		li $a2, 5
-		li $a3, 0x20
+		li $a3, 0x40
 		jal gfx_drawString
 		la $a0, msg_title_line6
 		li $a1, 1
 		li $a2, 6
-		li $a3, 0x20
+		li $a3, 0x40
 		jal gfx_drawString
 		la $a0, msg_title_line7
 		li $a1, 1
 		li $a2, 7
-		li $a3, 0x20
+		li $a3, 0x40
 		jal gfx_drawString
 		la $a0, msg_title_line8
 		li $a1, 1
 		li $a2, 8
-		li $a3, 0x20
+		li $a3, 0x40
 		jal gfx_drawString
 	#project string
 	la $a0, msg_title_project
@@ -213,17 +211,76 @@ DrawMainMenu:
 	li $a3, 0xA0
 	jal gfx_drawString
 	#BORDER !!!
-		li $a0, 0xB0
+		li $a0, 0xC9	#Up Left corner
 		li $a1, 0
 		li $a2, 0
-		li $a3, 0xA0
+		li $a3, 0xB0
 		jal gfx_drawChar
-	
+		li $a0, 0xBB	#Up Right corner
+		li $a1, 95	#Compensate for cut-off
+		li $a2, 0
+		li $a3, 0xB0
+		jal gfx_drawChar
+		li $a0, 0xC8	#Low Left corner
+		li $a1, 0
+		li $a2, 26
+		li $a3, 0xB0
+		jal gfx_drawChar
+		li $a0, 0xBC	#Low Right corner
+		li $a1, 95
+		li $a2, 26
+		li $a3, 0xB0
+		jal gfx_drawChar
+			#Draw Upper/Lower borders:
+			li $s0,95	#Stop at character 95
+			li $s1,1	#Start at character 1
+			brd_upperLoop:
+				beq $s1, $s0, brd_end
+				li $t0, 0xCD	#Pipe character (UPPER BORDER)
+				li $t2, 0
+				li $t3, 0xB0
+				sb $t3, 0xffff000c #Col
+				sb $t2, 0xffff000d #Y
+				sb $s1, 0xffff000e #X
+				sb $t0, 0xffff000f #Char
+				li $t0, 0xCD	#Pipe character (LOWER BORDER)
+				li $t2, 26
+				li $t3, 0xB0
+				sb $t3, 0xffff000c #Col
+				sb $t2, 0xffff000d #Y
+				sb $s1, 0xffff000e #X
+				sb $t0, 0xffff000f #Char
+				addi $s1, $s1, 1
+				j brd_upperLoop
+			brd_end:
+			#Draw left/right borders:
+			li $s0,26	#Stop at character 25
+			li $s1,1	#Start at character 1
+			brd_leftLoop:
+				beq $s1, $s0, brd_end2
+				li $t0, 0xBA	#Pipe character (LEFT BORDER)
+				li $t2, 0
+				li $t3, 0xB0 #B0
+				sb $t3, 0xffff000c #Col
+				sb $s1, 0xffff000d #Y
+				sb $t2, 0xffff000e #X
+				sb $t0, 0xffff000f #Char
+				li $t0, 0xBA	#Pipe character (RIGHT BORDER)
+				li $t1, 95
+				li $t3, 0xB0
+				sb $t3, 0xffff000c #Col
+				sb $s1, 0xffff000d #Y
+				sb $t1, 0xffff000e #X
+				sb $t0, 0xffff000f #Char
+				addi $s1, $s1, 1
+				j brd_leftLoop
+			brd_end2:
+			#CONTINUE menu stuff...
+			
 	
 	move $ra, $sp
 	addi $sp, $sp, 4
 	jr $ra #return to main loop
-
 getRandWord:
 	move $t0, $zero #index is 0 for now
 	la $t1, wordList # load array
@@ -233,7 +290,6 @@ getRandWord:
 	li $a1, 15
 	li $v0, 42
 	syscall
-
 	move $t0, $a0 #new random index
 	sll $t0, $t0, 2 #index=index*4
 	addu $t0, $t1, $t0
@@ -370,7 +426,6 @@ engine_updateBank:	# $a0=ascii letter $a1=color(0-F)
 	#set character
 	sb $a0, 0xffff000f
 	jr $ra
-
 engine_checkLetter:	#$a0=letter
 	subi $sp, $sp, 4
 	move $sp, $ra
@@ -466,7 +521,6 @@ engine_checkLetter:	#$a0=letter
 	move $ra, $sp
 	addi $sp, $sp, 4
 	jr $ra
-
 lose:
 	jal gfx_clearScreen
 	la $a0, debug_lose
@@ -506,7 +560,6 @@ win:
 resetGame:
 	li $t0, 10
 	sb $t0, failureCount
-
 	sb $zero, matchCount
 	
 	li $t0, 0x03FFFFFF
@@ -527,5 +580,4 @@ resetGame:
 	endBL:
 	
 	j startGame
-
 ExitProgram:
