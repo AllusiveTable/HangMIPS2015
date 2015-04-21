@@ -1,4 +1,4 @@
-#Special thanks to Jared for the awesome graphics wrapper.
+#42
 
 #Screen size: 96 x 26
 
