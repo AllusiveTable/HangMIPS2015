@@ -7,8 +7,8 @@
 	wordAddress:		.word word_0		#memory location of the correct word
 	keyboardBuffer:		.asciiz " "
 	wordBuffer:		.asciiz "\0\0\0\0\0\0\0\0\0\0\0"
-	debug_win:		.asciiz "win-press enter to play again"
-	debug_lose:		.asciiz "lose-press enter to play again"
+	debug_win:		.asciiz "You win!! Press <ENTER> to play again!"
+	debug_lose:		.asciiz "You lose :-( Press <ENTER> to play again."
 	txt_bound:		.asciiz	"                                                                                                " #PLEASE update these spaces to reflect the screen width!!
 	
 	word_0:			.asciiz	"COMPUTER"
@@ -35,6 +35,7 @@
 	msg_title_credit2:	.asciiz	"Jared Hull"
 	msg_title_credit3:	.asciiz	"Jeff Imam"
 	msg_title_credit4:	.asciiz	"Chase Vriezema"
+	msg_title_enter:		.asciiz	"Click on the Input Box, and Press <ENTER> to play!"
 	msg_game_title:		.asciiz	"HangMIPS"
 	msg_game_usedLetters:	.asciiz "   Unused letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	msg_title_line1:	.asciiz	"                  _    _                       __  __  _____  _____    _____ "
@@ -255,6 +256,12 @@ DrawMainMenu:
 	la $a0, msg_title_credit4
 	li $a1, 41
 	li $a2, 13
+	li $a3, 0xA0
+	jal gfx_drawString
+	#Enter String
+	la $a0, msg_title_enter
+	li $a1, 22
+	li $a2, 20
 	li $a3, 0xA0
 	jal gfx_drawString
 	#BORDER !!!
