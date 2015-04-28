@@ -92,6 +92,26 @@
 	hang_rarm_line3:	.asciiz	"    \\\\"
 	hang_rarm_line4:	.asciiz	"      *"
 	hang_asterisk:		.asciiz	"*"
+	bunny_14_line1:			.asciiz	"                                ##    "
+	bunny_14_line2:			.asciiz	"                         @@@  #(//#  "
+	bunny_14_line3:			.asciiz	"                         @  t@ #(//#  "
+	bunny_14_line4:			.asciiz	"                       @  / t@@(~/#  "
+	bunny_14_line5:			.asciiz	"        #/////###       @////C@((~#"
+	bunny_14_line6:			.asciiz	"       #/////////s#     @ // C@%((#"
+	bunny_14_line7:			.asciiz	"    #///////////    @@  @C/ C(@%%(#"
+	bunny_14_line8:			.asciiz	"   #///////////        #@(C((t@%%/C#"
+ 	bunny_14_line9:			.asciiz	"  #//////////          //((~s@(  C#"
+ 	bunny_14_line10:		.asciiz	"@ #~~(///~//           ~~~~~~~/   C#"
+	bunny_14_line11:		.asciiz	"@/~#~~(/(///~           ~~~@@ @~/   C@"
+	bunny_14_line12:		.asciiz	"@%~#%~t((t//~           ~~~@@@@~/    @"
+	bunny_14_line13:		.asciiz	"  @#%~~~~(((/~          /~~~~~~~~    @"
+	bunny_14_line14:		.asciiz	"    #tt~~t~~tt~@/  /      /~~~~      @"
+	bunny_14_line15:		.asciiz	"     @t~~~tt%~@@@@@@/      /~~/  ///#"
+	bunny_14_line16:		.asciiz	"     @%tt@@@         @        tC##@#"
+	bunny_14_line17:		.asciiz	"     @%t@t@            @   Ct  #      "
+	bunny_14_line18:		.asciiz	"     @  @@              @   tt  #     "
+	bunny_14_line19:		.asciiz	"      @@                  @   @##"
+	
 	
 #keyboard trap
 .ktext 0x80000180
@@ -926,6 +946,8 @@ engine_updateMan:
 lose:
 	jal gfx_clearScreen
 	
+	jal bunny_draw_frame14
+	
 	la $a0, debug_lose
 	li $a1, 0
 	li $a2, 0
@@ -961,6 +983,8 @@ lose:
 	
 win:
 	jal gfx_clearScreen
+	
+	jal bunny_draw_frame14
 	
 	la $a0, debug_win
 	li $a1, 0
@@ -1002,4 +1026,107 @@ resetGame:
 	endBL:
 	
 	j startGame
+	
+bunny_draw_frame14:
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, bunny_14_line1
+	li $a1, 2
+	li $a2, 8
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line2
+	li $a1, 2
+	li $a2, 9
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line3
+	li $a1, 2
+	li $a2, 10
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line4
+	li $a1, 2
+	li $a2, 11
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line5
+	li $a1, 2
+	li $a2, 12
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line6
+	li $a1, 2
+	li $a2, 13
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line7
+	li $a1, 2
+	li $a2, 14
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line8
+	li $a1, 2
+	li $a2, 15
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line9
+	li $a1, 2
+	li $a2, 16
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line10
+	li $a1, 2
+	li $a2, 17
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line11
+	li $a1, 2
+	li $a2, 18
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line12
+	li $a1, 2
+	li $a2, 19
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line13
+	li $a1, 2
+	li $a2, 20
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line14
+	li $a1, 2
+	li $a2, 21
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line15
+	li $a1, 2
+	li $a2, 22
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line16
+	li $a1, 2
+	li $a2, 23
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line17
+	li $a1, 2
+	li $a2, 24
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line18
+	li $a1, 2
+	li $a2, 25
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line19
+	li $a1, 2
+	li $a2, 26
+	li $a3, 0xF0
+	jal gfx_drawString
+	
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
 ExitProgram:
