@@ -894,6 +894,9 @@ engine_checkLetter:	#$a0=letter
 	j lose
 	notLose:
 	
+	#play WrongLetterSound
+	jal WrongLetterSound
+	
 	#decrement failures
 	subi $t0, $t0, 1
 	sb $t0, failureCount
@@ -905,6 +908,9 @@ engine_checkLetter:	#$a0=letter
 	addi $sp, $sp, 4
 	jr $ra
 	skipPunishment:
+	
+	#play RightLetterSound
+	jal RightLetterSound
 	
 	#redraw the wordBuffer on the screen
 	la $a0, wordBuffer
