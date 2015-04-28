@@ -366,6 +366,8 @@ gfx_drawBorder:
 		j brd_leftLoop
 	brd_end2:
 	
+	jal GameWonSound
+	
 	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
@@ -878,6 +880,7 @@ engine_checkLetter:	#$a0=letter
 	addi $sp, $sp, 4
 	j win
 	notWin:
+
 	#update matchCount
 	sb $t0, matchCount
 	
@@ -948,6 +951,7 @@ lose:
 	
 	jal bunny_draw_frame14
 	
+	
 	la $a0, debug_lose
 	li $a1, 0
 	li $a2, 0
@@ -975,6 +979,8 @@ lose:
 	lw $t0 , 0xFFFF0000
 	ori $t0, 2
 	sw $t0, 0xFFFF0000
+	
+	jal GameLostSound
 	#infinite loop
 	lose_WaitLoop:
 	b lose_WaitLoop
@@ -985,6 +991,7 @@ win:
 	jal gfx_clearScreen
 	
 	jal bunny_draw_frame14
+	
 	
 	la $a0, debug_win
 	li $a1, 0
@@ -1000,6 +1007,8 @@ win:
 	lw $t0 , 0xFFFF0000
 	ori $t0, 2
 	sw $t0, 0xFFFF0000
+	
+	jal GameWonSound
 	#infinite loop
 	win_WaitLoop:
 	b win_WaitLoop
@@ -1129,4 +1138,207 @@ bunny_draw_frame14:
 	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
+	
+WrongLetterSound: #Plays when user guesses wrong letter
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 64
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+RightLetterSound: #plays when user guess right letter
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 60
+addi $a1,$zero, 300
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+addi $a0,$zero, 67
+addi $a1,$zero, 300
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall
+addi $a0,$zero, 72
+addi $a1,$zero, 300
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+GameLostSound: #Plays when game over
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 48 #drones
+addi $a1,$zero, 4000
+addi $a2,$zero, 37
+addi $a3,$zero, 120 
+li $v0, 31
+syscall 
+addi $a0,$zero, 55 #drones
+addi $a1,$zero, 4000
+addi $a2,$zero, 37
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+addi $a0,$zero, 67 #notdrones
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 65
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 62
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 63
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 62
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 59
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 2000
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+GameWonSound: #Plays when game won
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 64
+addi $a1,$zero, 750
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 64
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 65
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 59
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 500
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 2000
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+#wait
+li $v0, 32
+li $a0 167
+syscall
+addi $a0,$zero, 64
+addi $a1,$zero, 1833
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+#wait
+li $v0, 32
+li $a0 167
+syscall
+addi $a0,$zero, 67
+addi $a1,$zero, 1666
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+#wait
+li $v0, 32
+li $a0 167
+syscall
+addi $a0,$zero, 72
+addi $a1,$zero, 1500
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+
 ExitProgram:
