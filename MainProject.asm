@@ -1,16 +1,15 @@
-#Special thanks to Jared for the awesome graphics wrapper.
-
 #Screen size: 96 x 26
 
 .data
-	failureCount:		.byte 10
+	failureCount:		.byte 6
 	matchCount:		.byte 0
 	letterState:		.word 0x03FFFFFF #bits 25-0 where 1 is visible
 	wordAddress:		.word word_0		#memory location of the correct word
 	keyboardBuffer:		.asciiz " "
 	wordBuffer:		.asciiz "\0\0\0\0\0\0\0\0\0\0\0"
-	debug_win:		.asciiz "win-press enter to play again"
-	debug_lose:		.asciiz "lose-press enter to play again"
+	debug_win:		.asciiz "You win!! Press <ENTER> to play again!"
+	debug_lose:		.asciiz "You lose :-( Press <ENTER> to play again."
+	lose_msg:		.asciiz "The word was: "
 	txt_bound:		.asciiz	"                                                                                                " #PLEASE update these spaces to reflect the screen width!!
 	
 	word_0:			.asciiz	"COMPUTER"
@@ -37,7 +36,9 @@
 	msg_title_credit2:	.asciiz	"Jared Hull"
 	msg_title_credit3:	.asciiz	"Jeff Imam"
 	msg_title_credit4:	.asciiz	"Chase Vriezema"
+	msg_title_enter:		.asciiz	"Click on the Input Box, and Press <ENTER> to play!"
 	msg_game_title:		.asciiz	"HangMIPS"
+	msg_game_usedLetters:	.asciiz "   Unused letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	msg_title_line1:	.asciiz	"                  _    _                       __  __  _____  _____    _____ "
 	msg_title_line2:	.asciiz	"                 | |  | |                     |  \\/  ||_   _||  __ \\  / ____|" #62
 	msg_title_line3:	.asciiz	"                 | |__| |  __ _  _ __    __ _ | \\  / |  | |  | |__) || (___  "
@@ -46,6 +47,71 @@
 	msg_title_line6:	.asciiz	"                 |_|  |_| \\__,_||_| |_| \\__, ||_|  |_||_____||_|     |_____/ "
 	msg_title_line7:	.asciiz	"                                         __/ |                              "
 	msg_title_line8:	.asciiz	"                                        |___/                                "
+
+	hang_frame_line1:	.asciiz	" _______________________"
+	hang_frame_line2:	.asciiz	"|  _______________)))___|"
+	hang_frame_line3:	.asciiz	"|H| / /           | |"
+	hang_frame_line4:	.asciiz	"|H|/ /            | |"
+	hang_frame_line5:	.asciiz	"|H| /             | |"
+	hang_frame_line6:	.asciiz	"|H|/              |_|"
+	hang_frame_line7:	.asciiz	"|H|"
+	hang_frame_line8:	.asciiz	"|H|"
+	hang_frame_line9:	.asciiz	"|H|"
+	hang_frame_line10:	.asciiz	"|H|"
+	hang_frame_line11:	.asciiz	"|H|"
+	hang_frame_line12:	.asciiz	"|H|"
+	hang_frame_line13:	.asciiz	"|H|"
+	hang_frame_line14:	.asciiz	"|H|"
+	hang_frame_line15:	.asciiz	"|H|"
+	hang_frame_line16:	.asciiz	"|H|"
+	hang_frame_line17:	.asciiz	"|H|"
+	hang_frame_line18:	.asciiz	"|H|"
+	hang_frame_line19:	.asciiz	"|H|"
+	hang_frame_line20:	.asciiz	"|H|```````\\                |``````|"
+	hang_frame_line21:	.asciiz	"|H|```````\\ \\               ````|H|"
+	hang_frame_line22:	.asciiz	"|H|         \\ \\                 |H|"
+	hang_frame_line23:	.asciiz	"|H|           \\ \\               |H|"
+	hang_frame_line24:	.asciiz	"|H|            `-'              |H|"
+	hang_head_line1:	.asciiz	"_/#####\\_"
+	hang_head_line2:	.asciiz	" / x x \\"
+	hang_head_line3:	.asciiz	"|   0  |"
+	hang_head_line4:	.asciiz	" \\____/"
+	hang_body_line1:	.asciiz	"   ||"
+	hang_body_line2:	.asciiz	"--[]-[]-"
+	hang_body_line3:	.asciiz	"| || || |"
+	hang_body_line4:	.asciiz	"| || || |"
+	hang_body_line5:	.asciiz	"| || || |"
+	hang_body_line6:	.asciiz	"|=[]=[]=|"
+	hang_body_line7:	.asciiz	"|_______|"
+	hang_larm_line1:	.asciiz	"         //"
+	hang_larm_line2:	.asciiz	"       //"
+	hang_larm_line3:	.asciiz	"     //"
+	hang_larm_line4:	.asciiz	"    *"
+	hang_rarm_line1:	.asciiz	"\\\\"
+	hang_rarm_line2:	.asciiz	"  \\\\"
+	hang_rarm_line3:	.asciiz	"    \\\\"
+	hang_rarm_line4:	.asciiz	"      *"
+	hang_asterisk:		.asciiz	"*"
+	bunny_14_line1:			.asciiz	"                                ##    "
+	bunny_14_line2:			.asciiz	"                         @@@  #(//#  "
+	bunny_14_line3:			.asciiz	"                         @  t@ #(//#  "
+	bunny_14_line4:			.asciiz	"                       @  / t@@(~/#  "
+	bunny_14_line5:			.asciiz	"        #/////###       @////C@((~#"
+	bunny_14_line6:			.asciiz	"       #/////////s#     @ // C@%((#"
+	bunny_14_line7:			.asciiz	"    #///////////    @@  @C/ C(@%%(#"
+	bunny_14_line8:			.asciiz	"   #///////////        #@(C((t@%%/C#"
+ 	bunny_14_line9:			.asciiz	"  #//////////          //((~s@(  C#"
+ 	bunny_14_line10:		.asciiz	"@ #~~(///~//           ~~~~~~~/   C#"
+	bunny_14_line11:		.asciiz	"@/~#~~(/(///~           ~~~@@ @~/   C@"
+	bunny_14_line12:		.asciiz	"@%~#%~t((t//~           ~~~@@@@~/    @"
+	bunny_14_line13:		.asciiz	"  @#%~~~~(((/~          /~~~~~~~~    @"
+	bunny_14_line14:		.asciiz	"    #tt~~t~~tt~@/  /      /~~~~      @"
+	bunny_14_line15:		.asciiz	"     @t~~~tt%~@@@@@@/      /~~/  ///#"
+	bunny_14_line16:		.asciiz	"     @%tt@@@         @        tC##@#"
+	bunny_14_line17:		.asciiz	"     @%t@t@            @   Ct  #      "
+	bunny_14_line18:		.asciiz	"     @  @@              @   tt  #     "
+	bunny_14_line19:		.asciiz	"      @@                  @   @##"
+	
 	
 #keyboard trap
 .ktext 0x80000180
@@ -90,12 +156,8 @@ MainLoop:
 	#Game play: get our word:
 	jal getRandWord
 	
-	#display the word (for debugging)
-	lw $a0, wordAddress
-	li $a1, 0
-	li $a2, 1
-	li $a3, 0x20
-	jal gfx_drawString
+	#Display the Noose/Hanging platform
+	jal gfx_drawNoose
 	
 	gameLoop:
 		#set interrupt flag to wait for input
@@ -132,7 +194,7 @@ DrawMainMenu:
 	#This is our main menu. Display: HangMIPS in ASCII art, then by: our names, and menu: 1) Play 2) Quit
 	# $a0 =string,  $a1=x $a2=y $a3=color
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	
 	#li $t0, 0x0002601A #Set screen size to 96x26
 	#sw $t0, 0xFFFF000C
@@ -210,77 +272,106 @@ DrawMainMenu:
 	li $a2, 13
 	li $a3, 0xA0
 	jal gfx_drawString
+	#Enter String
+	la $a0, msg_title_enter
+	li $a1, 22
+	li $a2, 20
+	li $a3, 0xA0
+	jal gfx_drawString
 	#BORDER !!!
-		li $a0, 0xC9	#Up Left corner
-		li $a1, 0
-		li $a2, 0
-		li $a3, 0xB0
-		jal gfx_drawChar
-		li $a0, 0xBB	#Up Right corner
-		li $a1, 95	#Compensate for cut-off
-		li $a2, 0
-		li $a3, 0xB0
-		jal gfx_drawChar
-		li $a0, 0xC8	#Low Left corner
-		li $a1, 0
-		li $a2, 26
-		li $a3, 0xB0
-		jal gfx_drawChar
-		li $a0, 0xBC	#Low Right corner
-		li $a1, 95
-		li $a2, 26
-		li $a3, 0xB0
-		jal gfx_drawChar
-			#Draw Upper/Lower borders:
-			li $s0,95	#Stop at character 95
-			li $s1,1	#Start at character 1
-			brd_upperLoop:
-				beq $s1, $s0, brd_end
-				li $t0, 0xCD	#Pipe character (UPPER BORDER)
-				li $t2, 0
-				li $t3, 0xB0
-				sb $t3, 0xffff000c #Col
-				sb $t2, 0xffff000d #Y
-				sb $s1, 0xffff000e #X
-				sb $t0, 0xffff000f #Char
-				li $t0, 0xCD	#Pipe character (LOWER BORDER)
-				li $t2, 26
-				li $t3, 0xB0
-				sb $t3, 0xffff000c #Col
-				sb $t2, 0xffff000d #Y
-				sb $s1, 0xffff000e #X
-				sb $t0, 0xffff000f #Char
-				addi $s1, $s1, 1
-				j brd_upperLoop
-			brd_end:
-			#Draw left/right borders:
-			li $s0,26	#Stop at character 25
-			li $s1,1	#Start at character 1
-			brd_leftLoop:
-				beq $s1, $s0, brd_end2
-				li $t0, 0xBA	#Pipe character (LEFT BORDER)
-				li $t2, 0
-				li $t3, 0xB0 #B0
-				sb $t3, 0xffff000c #Col
-				sb $s1, 0xffff000d #Y
-				sb $t2, 0xffff000e #X
-				sb $t0, 0xffff000f #Char
-				li $t0, 0xBA	#Pipe character (RIGHT BORDER)
-				li $t1, 95
-				li $t3, 0xB0
-				sb $t3, 0xffff000c #Col
-				sb $s1, 0xffff000d #Y
-				sb $t1, 0xffff000e #X
-				sb $t0, 0xffff000f #Char
-				addi $s1, $s1, 1
-				j brd_leftLoop
-			brd_end2:
-			#CONTINUE menu stuff...
+	move $a0, $zero
+	move $a1, $zero
+	li $a2, 95	#Compensate for cut-off
+	li $a3, 26
+	jal gfx_drawBorder	
+	#CONTINUE menu stuff...
 			
 	
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra #return to main loop
+	
+gfx_drawBorder:
+	move $s0, $a0 #X
+	move $s1, $a1 #Y
+	move $s2, $a2 #width
+	move $s3, $a3 #height
+
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	
+	li $a0, 0xC9	#Up Left corner
+	move $a1, $s0
+	move $a2, $s1
+	li $a3, 0xB0
+	jal gfx_drawChar
+	
+	li $a0, 0xBB	#Up Right corner
+	add $a1, $s0, $s2
+	move $a2, $s1
+	li $a3, 0xB0
+	jal gfx_drawChar
+	
+	li $a0, 0xC8	#Low Left corner
+	move $a1, $s0
+	add $a2, $s1, $s3
+	li $a3, 0xB0
+	jal gfx_drawChar
+	
+	li $a0, 0xBC	#Low Right corner
+	move $a1, $s2
+	move $a2, $s3
+	li $a3, 0xB0
+	jal gfx_drawChar
+	
+	#Draw Upper/Lower borders:
+	addi $t1, $s0, 1
+	brd_upperLoop:
+		beq $t1, $s2, brd_end
+		li $t0, 0xCD	#Pipe character (UPPER BORDER)
+		li $t3, 0xB0
+		sb $t3, 0xffff000c #Col
+		sb $s1, 0xffff000d #Y
+		sb $t1, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		li $t0, 0xCD	#Pipe character (LOWER BORDER)
+		add $t2, $s1, $s3
+		li $t3, 0xB0
+		sb $t3, 0xffff000c #Col
+		sb $t2, 0xffff000d #Y
+		sb $t1, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		addi $t1, $t1, 1
+		j brd_upperLoop
+	brd_end:
+	
+	#Draw left/right borders:
+	addi $t1, $s1, 1
+	brd_leftLoop:
+		beq $t1, $s3, brd_end2
+		li $t0, 0xBA	#Pipe character (LEFT BORDER)
+		li $t3, 0xB0 #B0
+		sb $t3, 0xffff000c #Col
+		sb $t1, 0xffff000d #Y
+		sb $s0, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		li $t0, 0xBA	#Pipe character (RIGHT BORDER)
+		add $t2, $s0, $s2
+		li $t3, 0xB0
+		sb $t3, 0xffff000c #Col
+		sb $t1, 0xffff000d #Y
+		sb $t2, 0xffff000e #X
+		sb $t0, 0xffff000f #Char
+		addi $t1, $t1, 1
+		j brd_leftLoop
+	brd_end2:
+	
+	jal GameWonSound
+	
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
 getRandWord:
 	move $t0, $zero #index is 0 for now
 	la $t1, wordList # load array
@@ -309,9 +400,9 @@ getRandWord:
 		#check for null terminator
 		beqz $t0, endBuffer
 		
-		#set the blank_ in the wordBuffer
+		#set the blank to ? in the wordBuffer
 		add $t1, $s2, $s0
-		li $t2, 0x5F
+		li $t2, 0x2E
 		sb $t2, ($t1)
 		
 		#increment the word offset
@@ -320,16 +411,16 @@ getRandWord:
 	endBuffer:
 	
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	
 	#draw the wordBuffer to screen
 	la $a0, wordBuffer
-	li $a1, 0
-	li $a2, 2
+	li $a1, 1
+	li $a2, 4
 	li $a3, 0x20
 	jal gfx_drawString
 	
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
@@ -391,44 +482,342 @@ gfx_clearScreen:
 		b rs_WaitLoop
 		cs_WaitLoopDone:
 	jr $ra
+
+gfx_drawHead: #Just the head (or just the tip?)
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_head_line1
+	li $a1, 70
+	li $a2, 8
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_head_line2
+	li $a1, 70
+	li $a2, 9
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_head_line3
+	li $a1, 70
+	li $a2, 10
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_head_line4
+	li $a1, 70
+	li $a2, 11
+	li $a3, 0xF0
+	jal gfx_drawString
+	move $ra, $sp
+	lw $ra, ($sp)
+	jr $ra
+
+gfx_drawLeftArm: #Left arm
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_larm_line1
+	li $a1, 60
+	li $a2, 13
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_larm_line2
+	li $a1, 60
+	li $a2, 14
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_larm_line3
+	li $a1, 60
+	li $a2, 15
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_larm_line4
+	li $a1, 60
+	li $a2, 16
+	li $a3, 0xF0
+	jal gfx_drawString
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawLeftLeg: #Left Leg
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_larm_line1
+	li $a1, 63
+	li $a2, 19
+	li $a3, 0x90
+	jal gfx_drawString
+	la $a0, hang_larm_line2
+	li $a1, 63
+	li $a2, 20
+	li $a3, 0x90
+	jal gfx_drawString
+	la $a0, hang_asterisk
+	li $a1, 69
+	li $a2, 21
+	li $a3, 0x90
+	jal gfx_drawString
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawRightLeg: #Right Leg
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_rarm_line1
+	li $a1, 75
+	li $a2, 19
+	li $a3, 0x90
+	jal gfx_drawString
+	la $a0, hang_rarm_line2
+	li $a1, 75
+	li $a2, 20
+	li $a3, 0x90
+	jal gfx_drawString
+	la $a0, hang_asterisk
+	li $a1, 79
+	li $a2, 21
+	li $a3, 0x90
+	jal gfx_drawString
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawRightArm: #Right arm
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_rarm_line1
+	li $a1, 78
+	li $a2, 13
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_rarm_line1
+	li $a1, 80
+	li $a2, 14
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_rarm_line1
+	li $a1, 82
+	li $a2, 15
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, hang_rarm_line4
+	li $a1, 79
+	li $a2, 16
+	li $a3, 0xF0
+	jal gfx_drawString
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawBody: #The body
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_body_line1
+	li $a1, 70
+	li $a2, 12
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_body_line2
+	li $a1, 70
+	li $a2, 13
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_body_line3
+	li $a1, 70
+	li $a2, 14
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_body_line4
+	li $a1, 70
+	li $a2, 15
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_body_line5
+	li $a1, 70
+	li $a2, 16
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_body_line6
+	li $a1, 70
+	li $a2, 17
+	li $a3, 0xC0
+	jal gfx_drawString
+	la $a0, hang_body_line7
+	li $a1, 70
+	li $a2, 18
+	li $a3, 0xC0
+	jal gfx_drawString
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+gfx_drawNoose:	#JUST THE PLATFORM!
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, hang_frame_line1
+	li $a1, 55
+	li $a2, 2
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line2
+	li $a1, 55
+	li $a2, 3
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line3
+	li $a1, 55
+	li $a2, 4
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line4
+	li $a1, 55
+	li $a2, 5
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line5
+	li $a1, 55
+	li $a2, 6
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line6
+	li $a1, 55
+	li $a2, 7
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line7
+	li $a1, 55
+	li $a2, 8
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line8
+	li $a1, 55
+	li $a2, 9
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line9
+	li $a1, 55
+	li $a2, 10
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line10
+	li $a1, 55
+	li $a2,11
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line11
+	li $a1, 55
+	li $a2, 12
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line12
+	li $a1, 55
+	li $a2, 13
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line13
+	li $a1, 55
+	li $a2, 14
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line14
+	li $a1, 55
+	li $a2, 15
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line15
+	li $a1, 55
+	li $a2, 16
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line16
+	li $a1, 55
+	li $a2, 17
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line17
+	li $a1, 55
+	li $a2, 18
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line18
+	li $a1, 55
+	li $a2, 19
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line19
+	li $a1, 55
+	li $a2, 20
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line20
+	li $a1, 55
+	li $a2, 21
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line21
+	li $a1, 55
+	li $a2, 22
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line22
+	li $a1, 55
+	li $a2, 23
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line23
+	li $a1, 55
+	li $a2, 24
+	li $a3, 0x60
+	jal gfx_drawString
+	la $a0, hang_frame_line24
+	li $a1, 55
+	li $a2, 25
+	li $a3, 0x60
+	jal gfx_drawString
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
 	
 engine_initializeBank:
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	
 	#reset letterState
 	li $t0, 0x03FFFFFF
 	sw $t0, letterState
 	
-	#start with A and update each letter in the bank
-	li $s0, 0x41
-	loop_iB:
-	move $a0, $s0
-	li $a1, 0xF0
-	jal engine_updateBank
-	addi $s0, $s0, 1
-	blt $s0, 0x5B, loop_iB
+	la $a0, msg_game_usedLetters
+	li $a1, 0
+	li $a2, 1
+	li $a3, 0x20
+	jal gfx_drawString
 	
-	move $ra, $sp
+	move $a0, $zero
+	move $a1, $zero
+	li $a2, 47
+	li $a3, 2
+	jal gfx_drawBorder
+	
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
 	
 engine_updateBank:	# $a0=ascii letter $a1=color(0-F)
 	#set color 0xFB foreground/background
 	sb $a1, 0xffff000c
-	#set Y to 0
-	move $t0, $zero
+	#set Y to 1
+	li $t0, 1
 	sb $t0, 0xffff000d
 	#set X
-	move $t0, $zero
 	subi $t0, $a0, 0x41
+	addi $t0, $t0, 19
 	sb $t0, 0xffff000e
 	#set character
 	sb $a0, 0xffff000f
 	jr $ra
+	
 engine_checkLetter:	#$a0=letter
 	subi $sp, $sp, 4
-	move $sp, $ra
+	sw $ra, ($sp)
 	sub $a0, $a0, 0x41
 	#check the status of the letter
 	lw $t0, letterState
@@ -487,52 +876,117 @@ engine_checkLetter:	#$a0=letter
 	lb $t0, matchCount
 	add $t0, $t0, $s3
 	bne $t0, $s0, notWin
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	j win
 	notWin:
+
 	#update matchCount
 	sb $t0, matchCount
 	
 	#check if no matches were made
 	bnez $s3, skipPunishment
-	move $ra, $sp
-	addi $sp, $sp, 4
 	
 	#check for complete failure
 	lb $t0, failureCount
 	bne $t0, 1, notLose
+	sb $zero, failureCount
 	j lose
 	notLose:
+	
+	#play WrongLetterSound
+	jal WrongLetterSound
 	
 	#decrement failures
 	subi $t0, $t0, 1
 	sb $t0, failureCount
+	
+	#update hangman
+	jal engine_updateMan
+	
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
 	jr $ra
 	skipPunishment:
 	
+	#play RightLetterSound
+	jal RightLetterSound
+	
 	#redraw the wordBuffer on the screen
 	la $a0, wordBuffer
-	li $a1, 0
-	li $a2, 2
+	li $a1, 1
+	li $a2, 4
 	li $a3, 0x20
 	jal gfx_drawString
 	
-	move $ra, $sp
+	lw $ra, ($sp)
 	addi $sp, $sp, 4
 	jr $ra
+	
+engine_updateMan:
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	
+	lb $s0, failureCount
+	
+	bgt $s0, 5, endHanging
+	jal gfx_drawHead
+	
+	bgt $s0, 4, endHanging
+	jal gfx_drawBody
+
+	bgt $s0, 3, endHanging
+	jal gfx_drawLeftArm
+
+	bgt $s0, 2, endHanging
+	jal gfx_drawRightArm
+	
+	bgt $s0, 1, endHanging
+	jal gfx_drawLeftLeg
+	
+	bgt $s0, 0, endHanging
+	jal gfx_drawRightLeg
+	
+	endHanging:
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
 lose:
 	jal gfx_clearScreen
+	
+	jal bunny_draw_frame14
+	
+	
 	la $a0, debug_lose
 	li $a1, 0
 	li $a2, 0
 	li $a3, 0xF0
 	jal gfx_drawString
 	
+	la $a0, lose_msg
+	li $a1, 0
+	li $a2, 1
+	li $a3, 0xF0
+	jal gfx_drawString
+	
+	lw $a0, wordAddress
+	la $a0, ($a0)
+	li $a1, 14
+	li $a2, 1
+	li $a3, 0xF0
+	jal gfx_drawString
+	
+	#hang MIPS
+	jal gfx_drawNoose
+	jal engine_updateMan
+	
 	#set interrupt flag to wait for input
 	lw $t0 , 0xFFFF0000
 	ori $t0, 2
 	sw $t0, 0xFFFF0000
+	
+	jal GameLostSound
 	#infinite loop
 	lose_WaitLoop:
 	b lose_WaitLoop
@@ -541,16 +995,26 @@ lose:
 	
 win:
 	jal gfx_clearScreen
+	
+	jal bunny_draw_frame14
+	
+	
 	la $a0, debug_win
 	li $a1, 0
 	li $a2, 0
 	li $a3, 0xF0
 	jal gfx_drawString
 	
+	#hang MIPS
+	jal gfx_drawNoose
+	jal engine_updateMan
+	
 	#set interrupt flag to wait for input
 	lw $t0 , 0xFFFF0000
 	ori $t0, 2
 	sw $t0, 0xFFFF0000
+	
+	jal GameWonSound
 	#infinite loop
 	win_WaitLoop:
 	b win_WaitLoop
@@ -558,12 +1022,9 @@ win:
 	j resetGame
 	
 resetGame:
-	li $t0, 10
+	li $t0, 6
 	sb $t0, failureCount
 	sb $zero, matchCount
-	
-	li $t0, 0x03FFFFFF
-	sw $t0, letterState
 	
 	move $t0, $zero	#offset counter
 	la $t1, wordBuffer
@@ -580,4 +1041,310 @@ resetGame:
 	endBL:
 	
 	j startGame
+	
+bunny_draw_frame14:
+	subi $sp, $sp, 4
+	sw $ra, ($sp)
+	la $a0, bunny_14_line1
+	li $a1, 2
+	li $a2, 8
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line2
+	li $a1, 2
+	li $a2, 9
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line3
+	li $a1, 2
+	li $a2, 10
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line4
+	li $a1, 2
+	li $a2, 11
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line5
+	li $a1, 2
+	li $a2, 12
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line6
+	li $a1, 2
+	li $a2, 13
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line7
+	li $a1, 2
+	li $a2, 14
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line8
+	li $a1, 2
+	li $a2, 15
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line9
+	li $a1, 2
+	li $a2, 16
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line10
+	li $a1, 2
+	li $a2, 17
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line11
+	li $a1, 2
+	li $a2, 18
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line12
+	li $a1, 2
+	li $a2, 19
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line13
+	li $a1, 2
+	li $a2, 20
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line14
+	li $a1, 2
+	li $a2, 21
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line15
+	li $a1, 2
+	li $a2, 22
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line16
+	li $a1, 2
+	li $a2, 23
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line17
+	li $a1, 2
+	li $a2, 24
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line18
+	li $a1, 2
+	li $a2, 25
+	li $a3, 0xF0
+	jal gfx_drawString
+	la $a0, bunny_14_line19
+	li $a1, 2
+	li $a2, 26
+	li $a3, 0xF0
+	jal gfx_drawString
+	
+	lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+WrongLetterSound: #Plays when user guesses wrong letter
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 64
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+RightLetterSound: #plays when user guess right letter
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 60
+addi $a1,$zero, 300
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+addi $a0,$zero, 67
+addi $a1,$zero, 300
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall
+addi $a0,$zero, 72
+addi $a1,$zero, 300
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+GameLostSound: #Plays when game over
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 48 #drones
+addi $a1,$zero, 4000
+addi $a2,$zero, 37
+addi $a3,$zero, 120 
+li $v0, 31
+syscall 
+addi $a0,$zero, 55 #drones
+addi $a1,$zero, 4000
+addi $a2,$zero, 37
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+addi $a0,$zero, 67 #notdrones
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 65
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 62
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 63
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 62
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 59
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 2000
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	
+GameWonSound: #Plays when game won
+subi $sp, $sp, 4
+	sw $ra, ($sp)
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 64
+addi $a1,$zero, 750
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 67
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 64
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 65
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 59
+addi $a1,$zero, 250
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 500
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 33
+syscall 
+addi $a0,$zero, 60
+addi $a1,$zero, 2000
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+#wait
+li $v0, 32
+li $a0 167
+syscall
+addi $a0,$zero, 64
+addi $a1,$zero, 1833
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+#wait
+li $v0, 32
+li $a0 167
+syscall
+addi $a0,$zero, 67
+addi $a1,$zero, 1666
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+#wait
+li $v0, 32
+li $a0 167
+syscall
+addi $a0,$zero, 72
+addi $a1,$zero, 1500
+addi $a2,$zero, 29
+addi $a3,$zero, 120
+li $v0, 31
+syscall 
+lw $ra, ($sp)
+	addi $sp, $sp, 4
+	jr $ra
+
 ExitProgram:
